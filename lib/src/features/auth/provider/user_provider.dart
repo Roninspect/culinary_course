@@ -1,3 +1,4 @@
+import 'package:culinary_course/src/models/course.dart';
 import 'package:culinary_course/src/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,4 +21,29 @@ class UserData extends Notifier<User> {
   void setUser({required User userModel}) {
     state = userModel;
   }
+
+  void updateuser({required User userModel}) {
+    state = userModel;
+  }
+
+  void addToCart({required Course course}){
+    final updatedUser = state.copyWith(cart: [...state.cart, course]);
+
+    state = updatedUser;
+  }
+
+ void removeFromCart(String courseId) {
+    // Again, our state is immutable. So we're making a new list instead of
+    // changing the existing list.
+
+    final updatedCart = [
+      for (final course in state.cart)
+        if (course.id != courseId) course,
+    ];
+
+     final updatedUser = state.copyWith(cart: updatedCart);
+    state = updatedUser;
+  }
+
+ 
 }

@@ -18,7 +18,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    ref.read(authRepositoryProvider.notifier).getUserData();
+    ref.read(authRepositoryProvider.notifier).validateAndgetUserData();
   }
 
   @override
@@ -27,7 +27,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Culinary Course',
-      theme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true),
       routerDelegate: router.routerDelegate,
       routeInformationParser: router.routeInformationParser,
       routeInformationProvider: router.routeInformationProvider,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:culinary_course/src/core/constants/constants.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,17 @@ import '../../../core/utility/error_snackbar.dart';
 import '../../../models/user_model.dart';
 import 'package:http/http.dart' as http;
 
+
+
+
+
 final authRepositoryProvider =
     StateNotifierProvider<AuthRepository, bool>((ref) {
   return AuthRepository(ref: ref, dio: Dio());
 });
+
+
+
 
 class AuthRepository extends StateNotifier<bool> {
   final Ref ref;
@@ -40,7 +48,7 @@ class AuthRepository extends StateNotifier<bool> {
       );
 
       final http.Response response = await http.post(
-          Uri.parse("http://192.168.31.20:8080/api/v1/user/signup"),
+          Uri.parse("$baseUrl/api/v1/user/signup"),
           body: user.toJson(),
           headers: <String, String>{
             "Content-Type": "application/json",
@@ -69,7 +77,7 @@ class AuthRepository extends StateNotifier<bool> {
     required String password,
   }) async {
     try {
-      final uri = Uri.parse("http://192.168.31.20:8080/api/v1/user/signIn");
+      final uri = Uri.parse("$baseUrl/api/v1/user/signIn");
 
       final http.Response response = await http.post(uri,
           body: jsonEncode({
@@ -103,19 +111,15 @@ class AuthRepository extends StateNotifier<bool> {
 
   //** validate user token and persist user auth state */
 
-  void getUserData() async {
+  void validateAndgetUserData() async {
     try {
-      // final SharedPreferences prefs = await SharedPreferences.getInstance();
-      // final String? token = prefs.getString("x-auth-token");
-
       const FlutterSecureStorage secureStorage = FlutterSecureStorage();
       final String? token = await secureStorage.read(key: "x-auth-token");
 
       if (token == null) {
         secureStorage.write(key: "x-auth-token", value: "");
       }
-      final uri =
-          Uri.parse("http://192.168.31.20:8080/api/v1/user/tokenIsValid");
+      final uri = Uri.parse("$baseUrl/api/v1/user/tokenIsValid");
       final http.Response tokenRes = await http.post(
         uri,
         headers: <String, String>{
@@ -127,8 +131,7 @@ class AuthRepository extends StateNotifier<bool> {
 
       if (response == true) {
         try {
-          final userUri =
-              Uri.parse("http://192.168.31.20:8080/api/v1/user/getUserData");
+          final userUri = Uri.parse("$baseUrl/api/v1/user/getUserData");
           http.Response userResponse = await http.get(
             userUri,
             headers: <String, String>{
@@ -139,12 +142,37 @@ class AuthRepository extends StateNotifier<bool> {
 
           final userModel = User.fromMap(jsonDecode(userResponse.body));
           ref.read(userDataProvider.notifier).setUser(userModel: userModel);
-        } catch (e) {
+        } catch (e, stk) {
+          print(stk);
           throw Exception(e.toString());
         }
       }
-    } catch (e) {
+    } catch (e, stk) {
+      print(stk);
       throw Exception(e.toString());
     }
   }
+
+  void getUserData() async {
+    try {
+      const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+      final String? token = await secureStorage.read(key: "x-auth-token");
+      final userUri = Uri.parse("$baseUrl/api/v1/user/getUserData");
+      http.Response userResponse = await http.get(
+        userUri,
+        headers: <String, String>{
+          "Content-Type": "application/json",
+          "x-auth-token": token!,
+        },
+      );
+
+      final userModel = User.fromMap(jsonDecode(userResponse.body));
+
+      ref.read(userDataProvider.notifier).updateuser(userModel: userModel);
+    } catch (e, stk) {
+      print(stk);
+      throw Exception(e.toString());
+    }
+  }
+
 }
