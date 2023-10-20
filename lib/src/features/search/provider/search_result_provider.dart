@@ -1,29 +1,9 @@
 import 'dart:async';
-
-import 'package:culinary_course/src/features/search/controller/search_controller.dart';
 import 'package:culinary_course/src/features/search/repository/search_repository.dart';
 import 'package:culinary_course/src/models/course.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'search_result_provider.g.dart';
-
-// final searchResultNotifierProvider =
-//     NotifierProvider<SearchResultNotifier, List<Course>>(
-//         SearchResultNotifier.new);
-
-// class SearchResultNotifier extends Notifier<List<Course>> {
-//   @override
-//   build() {
-//     return [];
-//   }
-
-//   void searchCourseByTitle({required String query}) async {
-//     state = await ref
-//         .watch(searchRepositoryProvider)
-//         .searchCourseByTitle(query: query);
-//   }
-// }
 
 @riverpod
 class SearchResult extends _$SearchResult {
@@ -32,9 +12,17 @@ class SearchResult extends _$SearchResult {
     return [];
   }
 
-  Future<void> searchCourseByTitle({required String query}) async {
+  Future<void> searchCourseByTitle(
+    String? category, {
+    required String query,
+  }) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() =>
-        ref.watch(searchRepositoryProvider).searchCourseByTitle(query: query));
+    state = await AsyncValue.guard(() => category == null
+        ? ref
+            .watch(searchRepositoryProvider)
+            .searchCourseByTitle(query: query, null)
+        : ref
+            .watch(searchRepositoryProvider)
+            .searchCourseByTitle(query: query, category));
   }
 }

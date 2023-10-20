@@ -234,7 +234,7 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
             CustomButton(
                 height: 50,
                 width: 150,
-                text: "Enroll Now \$120",
+                text: "Enroll Now \$${course.price}",
                 onpressed: () {},
                 backgroundColor: primaryColor),
             const SizedBox(width: 10),

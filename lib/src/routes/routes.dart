@@ -2,12 +2,22 @@ import 'package:culinary_course/src/features/auth/pages/login_page.dart';
 import 'package:culinary_course/src/features/auth/pages/register_page.dart';
 import 'package:culinary_course/src/features/courses/pages/course_details_page.dart';
 import 'package:culinary_course/src/features/home/pages/rootpage.dart';
+import 'package:culinary_course/src/features/search/pages/filter_page.dart';
+import 'package:culinary_course/src/features/search/pages/search_page.dart';
 import 'package:culinary_course/src/models/course.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/provider/user_provider.dart';
 
-enum AppRoutes { login, register, home, course }
+enum AppRoutes {
+  login,
+  register,
+  home,
+  course,
+  search,
+  filter,
+}
 
 final routesProvider = Provider<GoRouter>((ref) {
   final user = ref.watch(userDataProvider.select((value) => value.token));
@@ -27,7 +37,21 @@ final routesProvider = Provider<GoRouter>((ref) {
                 final Course course = state.extra as Course;
                 return CourseDetailsPage(course: course);
               },
-            )
+            ),
+            GoRoute(
+                path: 'search',
+                name: AppRoutes.search.name,
+                builder: (context, state) => const SearchPage(),
+                routes: [
+                  GoRoute(
+                    path: 'filter',
+                    name: AppRoutes.filter.name,
+                    pageBuilder: (context, state) => MaterialPage(
+                        key: state.pageKey,
+                        fullscreenDialog: true,
+                        child: const FilterPage()),
+                  )
+                ]),
           ]),
       GoRoute(
           path: '/login',

@@ -11,13 +11,16 @@ final searchRepositoryProvider = Provider<SearchRepository>((ref) {
 });
 
 class SearchRepository {
-  Future<List<Course>> searchCourseByTitle({required String query}) async {
+  Future<List<Course>> searchCourseByTitle(String? category,
+      {required String query}) async {
     try {
       List<Course> searchResults = [];
       const FlutterSecureStorage secureStorage = FlutterSecureStorage();
       final String? token = await secureStorage.read(key: "x-auth-token");
-      final http.Response response = await http
-          .get(Uri.parse("$baseUrl/api/v1/courses/search/$query"), headers: {
+      final Uri url = category == null
+          ? Uri.parse("$baseUrl/api/v1/courses/testsearch/$query")
+          : Uri.parse("$baseUrl/api/v1/courses/testsearch/$query/$category");
+      final http.Response response = await http.get(url, headers: {
         "Content-Type": "application/json",
         "x-auth-token": token!,
       });
