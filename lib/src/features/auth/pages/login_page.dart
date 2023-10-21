@@ -1,3 +1,4 @@
+import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +22,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userDataProvider);
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -28,8 +30,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Column(
             children: [
               Text(
-                "Cuilnary Course",
-                style: TextStyle(
+                "Cuilnary Course ${user.email}",
+                style: const TextStyle(
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                 ),

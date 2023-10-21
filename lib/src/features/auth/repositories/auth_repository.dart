@@ -11,17 +11,10 @@ import '../../../core/utility/error_snackbar.dart';
 import '../../../models/user_model.dart';
 import 'package:http/http.dart' as http;
 
-
-
-
-
 final authRepositoryProvider =
     StateNotifierProvider<AuthRepository, bool>((ref) {
   return AuthRepository(ref: ref, dio: Dio());
 });
-
-
-
 
 class AuthRepository extends StateNotifier<bool> {
   final Ref ref;
@@ -44,6 +37,7 @@ class AuthRepository extends StateNotifier<bool> {
         isPaid: false,
         number: number,
         cart: [],
+        wishlist: [],
         token: "",
       );
 
@@ -139,8 +133,9 @@ class AuthRepository extends StateNotifier<bool> {
               "x-auth-token": token,
             },
           );
-
+          print(userResponse.body);
           final userModel = User.fromMap(jsonDecode(userResponse.body));
+
           ref.read(userDataProvider.notifier).setUser(userModel: userModel);
         } catch (e, stk) {
           print(stk);
@@ -153,26 +148,26 @@ class AuthRepository extends StateNotifier<bool> {
     }
   }
 
-  void getUserData() async {
-    try {
-      const FlutterSecureStorage secureStorage = FlutterSecureStorage();
-      final String? token = await secureStorage.read(key: "x-auth-token");
-      final userUri = Uri.parse("$baseUrl/api/v1/user/getUserData");
-      http.Response userResponse = await http.get(
-        userUri,
-        headers: <String, String>{
-          "Content-Type": "application/json",
-          "x-auth-token": token!,
-        },
-      );
+  // void getUserData() async {
+  //   try {
+  //     const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+  //     final String? token = await secureStorage.read(key: "x-auth-token");
+  //     final userUri = Uri.parse("$baseUrl/api/v1/user/getUserData");
+  //     http.Response userResponse = await http.get(
+  //       userUri,
+  //       headers: <String, String>{
+  //         "Content-Type": "application/json",
+  //         "x-auth-token": token!,
+  //       },
+  //     );
 
-      final userModel = User.fromMap(jsonDecode(userResponse.body));
+  //     final userModel = User.fromMap(jsonDecode(userResponse.body));
 
-      ref.read(userDataProvider.notifier).updateuser(userModel: userModel);
-    } catch (e, stk) {
-      print(stk);
-      throw Exception(e.toString());
-    }
-  }
-
+  //     ref.read(userDataProvider.notifier).updateuser(userModel: userModel);
+  //   } catch (e, stk) {
+  //     print(ref.read(userDataProvider).wishlist);
+  //     print(stk);
+  //     throw Exception(e.toString());
+  //   }
+  // }
 }

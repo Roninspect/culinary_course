@@ -4,9 +4,11 @@ import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
 import 'package:culinary_course/src/features/cart/pages/cart_page.dart';
 import 'package:culinary_course/src/features/home/pages/homepage.dart';
 import 'package:culinary_course/src/features/home/provider/nav_provider.dart';
+import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:go_router/go_router.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
@@ -15,34 +17,26 @@ class RootPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _RootPageState();
 }
 
-class _RootPageState extends ConsumerState<RootPage>  {
-late int _selectedPageIndex;
-late PageController _pageController;
+class _RootPageState extends ConsumerState<RootPage> {
+  late PageController _pageController;
 
-@override
-void initState() {
-  super.initState();
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
 
-  _selectedPageIndex = 0;
-  
+  @override
+  void dispose() {
+    _pageController.dispose();
 
-  _pageController = PageController(initialPage: _selectedPageIndex);
-}
-
-@override
-void dispose() {
-  _pageController.dispose();
-
-  super.dispose();
-}
-
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-  //  final index = ref.watch(navNotifierProvider);
+    final index = ref.watch(navNotifierProvider);
     final user = ref.watch(userDataProvider.select((value) => value.cart));
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -59,25 +53,29 @@ void dispose() {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+              onPressed: () => context.pushNamed(AppRoutes.wishlist.name),
+              icon: const Icon(Icons.abc))
+        ],
       ),
-      body:  PageView(
+      body: PageView(
         controller: _pageController,
         children: tabWidgets,
-        onPageChanged: (value) => setState(() {
-          _selectedPageIndex = value;
-        }),
+        onPageChanged: (value) =>
+            ref.read(navNotifierProvider.notifier).setIndex(index: value),
       ),
       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: primaryColor,
           unselectedItemColor: Colors.black,
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          currentIndex: _selectedPageIndex,
+          currentIndex: index,
           onTap: (selectedPageIndex) {
-        setState(() {
-          _selectedPageIndex = selectedPageIndex;
-          _pageController.jumpToPage(selectedPageIndex);
-        });
-      },
+            ref
+                .read(navNotifierProvider.notifier)
+                .setIndex(index: selectedPageIndex);
+            _pageController.jumpToPage(selectedPageIndex);
+          },
           items: [
             const BottomNavigationBarItem(
                 icon: Icon(Icons.home), label: "Home"),
@@ -96,7 +94,4 @@ void dispose() {
           ]),
     );
   }
-  
-
 }
-

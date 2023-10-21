@@ -4,6 +4,7 @@ import 'package:culinary_course/src/features/courses/pages/course_details_page.d
 import 'package:culinary_course/src/features/home/pages/rootpage.dart';
 import 'package:culinary_course/src/features/search/pages/filter_page.dart';
 import 'package:culinary_course/src/features/search/pages/search_page.dart';
+import 'package:culinary_course/src/features/wishlist/pages/wishlist_page.dart';
 import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ enum AppRoutes {
   course,
   search,
   filter,
+  wishlist,
 }
 
 final routesProvider = Provider<GoRouter>((ref) {
@@ -36,6 +38,13 @@ final routesProvider = Provider<GoRouter>((ref) {
                 state.pathParameters['id'];
                 final Course course = state.extra as Course;
                 return CourseDetailsPage(course: course);
+              },
+            ),
+            GoRoute(
+              path: 'wishlist',
+              name: AppRoutes.wishlist.name,
+              builder: (context, state) {
+                return const WishlistPage();
               },
             ),
             GoRoute(

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CategoriesListView extends ConsumerWidget  {
+class CategoriesListView extends ConsumerWidget {
   const CategoriesListView({super.key});
 
   @override
@@ -55,18 +55,17 @@ class CategoriesListView extends ConsumerWidget  {
                 ),
               ),
               SizedBox(
-                height: 400,
+                height: 350,
                 child: ref
                     .watch(
                       getCoursesByCategoriesProvider(
-                        category: ref.watch(
-                                categorySelectorNotifierProvider(
-                                    categories.first.name)),context: context
-                      ),
+                          category: ref.watch(categorySelectorNotifierProvider(
+                              categories.first.name)),
+                          context: context),
                     )
                     .when(
                       data: (courses) => ListView.builder(
-                         key: const PageStorageKey<String>('controllerA'),
+                        key: const PageStorageKey<String>('controllerA'),
                         scrollDirection: Axis.horizontal,
                         itemCount: courses.length,
                         itemBuilder: (context, index) {

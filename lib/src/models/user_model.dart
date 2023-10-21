@@ -14,6 +14,7 @@ class User {
   final bool isPaid;
   final String token;
   final List<Course> cart;
+  final List<Course> wishlist;
   User({
     required this.id,
     required this.name,
@@ -23,6 +24,7 @@ class User {
     required this.isPaid,
     required this.token,
     required this.cart,
+    required this.wishlist,
   });
 
   User copyWith({
@@ -34,6 +36,7 @@ class User {
     bool? isPaid,
     String? token,
     List<Course>? cart,
+    List<Course>? wishlist,
   }) {
     return User(
       id: id ?? this.id,
@@ -44,6 +47,7 @@ class User {
       isPaid: isPaid ?? this.isPaid,
       token: token ?? this.token,
       cart: cart ?? this.cart,
+      wishlist: wishlist ?? this.wishlist,
     );
   }
 
@@ -57,6 +61,7 @@ class User {
       'isPaid': isPaid,
       'token': token,
       'cart': cart.map((x) => x.toMap()).toList(),
+      'wishlist': wishlist.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -74,6 +79,11 @@ class User {
           (x) => Course.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      wishlist: List<Course>.from(
+        (map['wishlist'] as List<dynamic>).map<Course>(
+          (x) => Course.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -84,7 +94,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart)';
+    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart, wishlist: $wishlist)';
   }
 
   @override
@@ -98,7 +108,8 @@ class User {
         other.password == password &&
         other.isPaid == isPaid &&
         other.token == token &&
-        listEquals(other.cart, cart);
+        listEquals(other.cart, cart) &&
+        listEquals(other.wishlist, wishlist);
   }
 
   @override
@@ -110,6 +121,7 @@ class User {
         password.hashCode ^
         isPaid.hashCode ^
         token.hashCode ^
-        cart.hashCode;
+        cart.hashCode ^
+        wishlist.hashCode;
   }
 }

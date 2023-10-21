@@ -1,15 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:culinary_course/src/core/constants/colors.dart';
+import 'package:culinary_course/src/core/utility/error_snackbar.dart';
 import 'package:culinary_course/src/core/widgets/custom_button.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
 import 'package:culinary_course/src/features/cart/controller/cart_controller.dart';
 import 'package:culinary_course/src/features/courses/widgets/rating_bar.dart';
 import 'package:culinary_course/src/features/courses/widgets/video_player.dart';
+import 'package:culinary_course/src/features/home/provider/nav_provider.dart';
+import 'package:culinary_course/src/features/wishlist/controller/wishlist_controller.dart';
+import 'package:culinary_course/src/features/wishlist/repository/wishlist_repository.dart';
 
 import 'package:culinary_course/src/models/course.dart';
+import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:readmore/readmore.dart';
 
@@ -32,7 +39,11 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
   Widget build(BuildContext context) {
     final Course course = widget.course;
     bool isLoading = ref.watch(cartControllerProvider);
-    final user = ref.watch(userDataProvider.select((value) => value.cart));
+    bool isWishlistLoading = ref.watch(wishControllerProvider);
+
+    final cart = ref.watch(userDataProvider.select((value) => value.cart));
+    final wishlist =
+        ref.watch(userDataProvider.select((value) => value.wishlist));
 
     Text getTotalLessons() {
       if (course.totalContentCount < 10) {
@@ -46,6 +57,38 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
         "${course.totalContentCount} Lessons",
         style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
       );
+    }
+
+    IconButton whichButtonToShow() {
+      return wishlist.any((element) => element.id == course.id)
+          ? IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: 35,
+              ))
+          : isWishlistLoading
+              ? IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.access_time_filled_sharp,
+                    color: Colors.red,
+                    size: 35,
+                  ))
+              : IconButton(
+                  onPressed: () {
+                    ref.read(wishControllerProvider.notifier).addToWishlist(
+                        courseId: course.id,
+                        context: context,
+                        course: course,
+                        ref: ref);
+                  },
+                  icon: const Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.red,
+                    size: 35,
+                  ));
     }
 
     return Scaffold(
@@ -94,13 +137,7 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
                           style: const TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                              size: 35,
-                            )),
+                        whichButtonToShow()
                       ],
                     ),
 
@@ -240,12 +277,16 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
             const SizedBox(width: 10),
             Row(
               children: [
-                user.any((element) => element.id == course.id)
+                cart.any((element) => element.id == course.id)
                     ? CustomButton(
                         height: 50,
                         width: 150,
                         text: "Added To Cart",
-                        onpressed: () {},
+                        onpressed: () {
+                          errorSnackBar(
+                              context: context,
+                              text: "Already Added, Check Cart Page");
+                        },
                         backgroundColor: primaryColor)
                     : isLoading
                         ? CustomButton(

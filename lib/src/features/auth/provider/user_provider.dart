@@ -15,7 +15,8 @@ class UserData extends Notifier<User> {
         number: "",
         password: "",
         token: "",
-        cart: []);
+        cart: [],
+        wishlist: []);
   }
 
   void setUser({required User userModel}) {
@@ -26,13 +27,13 @@ class UserData extends Notifier<User> {
     state = userModel;
   }
 
-  void addToCart({required Course course}){
+  void addToCart({required Course course}) {
     final updatedUser = state.copyWith(cart: [...state.cart, course]);
 
     state = updatedUser;
   }
 
- void removeFromCart(String courseId) {
+  void removeFromCart(String courseId) {
     // Again, our state is immutable. So we're making a new list instead of
     // changing the existing list.
 
@@ -41,9 +42,26 @@ class UserData extends Notifier<User> {
         if (course.id != courseId) course,
     ];
 
-     final updatedUser = state.copyWith(cart: updatedCart);
+    final updatedUser = state.copyWith(cart: updatedCart);
     state = updatedUser;
   }
 
- 
+  void addToWishlist({required Course course}) {
+    final updatedUser = state.copyWith(wishlist: [...state.wishlist, course]);
+
+    state = updatedUser;
+  }
+
+  void removeFromWishlist(String courseId) {
+    // Again, our state is immutable. So we're making a new list instead of
+    // changing the existing list.
+
+    final updatedWishlist = [
+      for (final course in state.wishlist)
+        if (course.id != courseId) course,
+    ];
+
+    final updatedUser = state.copyWith(wishlist: updatedWishlist);
+    state = updatedUser;
+  }
 }
