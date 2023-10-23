@@ -2,6 +2,7 @@ import 'package:culinary_course/src/features/auth/pages/login_page.dart';
 import 'package:culinary_course/src/features/auth/pages/register_page.dart';
 import 'package:culinary_course/src/features/courses/pages/course_details_page.dart';
 import 'package:culinary_course/src/features/home/pages/rootpage.dart';
+import 'package:culinary_course/src/features/payment/pages/confirm_payment.dart';
 import 'package:culinary_course/src/features/search/pages/filter_page.dart';
 import 'package:culinary_course/src/features/search/pages/search_page.dart';
 import 'package:culinary_course/src/features/wishlist/pages/wishlist_page.dart';
@@ -19,6 +20,7 @@ enum AppRoutes {
   search,
   filter,
   wishlist,
+  payment,
 }
 
 final routesProvider = Provider<GoRouter>((ref) {
@@ -45,6 +47,13 @@ final routesProvider = Provider<GoRouter>((ref) {
               name: AppRoutes.wishlist.name,
               builder: (context, state) {
                 return const WishlistPage();
+              },
+            ),
+            GoRoute(
+              path: 'payment',
+              name: AppRoutes.payment.name,
+              builder: (context, state) {
+                return const PaymentConfirmPage();
               },
             ),
             GoRoute(

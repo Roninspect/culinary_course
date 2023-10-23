@@ -21,7 +21,7 @@ class CourseVideoPlayer extends ConsumerStatefulWidget {
 }
 
 class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
-  late VideoPlayerController _videoPlayerController;
+  VideoPlayerController? _videoPlayerController;
   ChewieController? chewieController;
   bool isLoading = false;
   bool isVideoInitialized = false;
@@ -33,7 +33,7 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
       isLoading = true;
     });
 
-    await _videoPlayerController.initialize();
+    await _videoPlayerController!.initialize();
 
     setState(() {
       isLoading = false;
@@ -41,7 +41,7 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
     });
 
     chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
+        videoPlayerController: _videoPlayerController!,
         aspectRatio: 17.5 / 11,
         autoPlay: true);
     setState(() {});
@@ -49,8 +49,14 @@ class _CourseVideoPlayerState extends ConsumerState<CourseVideoPlayer> {
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
-    chewieController!.dispose();
+    if (_videoPlayerController != null) {
+      _videoPlayerController!.dispose();
+    }
+
+    if (chewieController != null) {
+      chewieController!.dispose();
+    }
+
     super.dispose();
   }
 

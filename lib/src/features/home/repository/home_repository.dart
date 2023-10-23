@@ -2,7 +2,6 @@ import 'package:culinary_course/src/core/constants/constants.dart';
 import 'package:culinary_course/src/core/helper/failure.dart';
 import 'package:culinary_course/src/core/helper/typedefs.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
-import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +19,6 @@ class HomeRepository {
   final Ref ref;
 
   HomeRepository({required this.ref});
-
 
   FutureEither<http.Response> getFeatured() async {
     try {

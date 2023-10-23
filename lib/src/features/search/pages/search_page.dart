@@ -1,10 +1,6 @@
 import 'package:culinary_course/src/core/constants/colors.dart';
-import 'package:culinary_course/src/features/courses/controllers/course_controller.dart';
-import 'package:culinary_course/src/features/search/controller/search_controller.dart';
 import 'package:culinary_course/src/features/search/provider/search_result_provider.dart';
 import 'package:culinary_course/src/features/search/provider/selected_category_provider.dart';
-import 'package:culinary_course/src/models/category.dart';
-import 'package:culinary_course/src/models/course.dart';
 import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,6 +39,13 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Search",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(

@@ -1,14 +1,9 @@
 import 'package:culinary_course/src/core/constants/colors.dart';
 import 'package:culinary_course/src/core/constants/tab_widgets.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
-import 'package:culinary_course/src/features/cart/pages/cart_page.dart';
-import 'package:culinary_course/src/features/home/pages/homepage.dart';
 import 'package:culinary_course/src/features/home/provider/nav_provider.dart';
-import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:go_router/go_router.dart';
 
 class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
@@ -39,26 +34,6 @@ class _RootPageState extends ConsumerState<RootPage> {
     final user = ref.watch(userDataProvider.select((value) => value.cart));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          children: [
-            Icon(
-              MaterialCommunityIcons.chef_hat,
-              color: primaryColor,
-              size: 30,
-            ),
-            Text(
-              "  Culinary Course ",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () => context.pushNamed(AppRoutes.wishlist.name),
-              icon: const Icon(Icons.abc))
-        ],
-      ),
       body: PageView(
         controller: _pageController,
         children: tabWidgets,

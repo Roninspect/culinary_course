@@ -1,8 +1,6 @@
 import 'package:culinary_course/src/features/auth/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../../core/constants/colors.dart';
 
 class LoginForm extends ConsumerStatefulWidget {

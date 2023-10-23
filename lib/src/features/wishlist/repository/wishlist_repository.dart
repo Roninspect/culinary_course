@@ -1,7 +1,6 @@
 import 'package:culinary_course/src/core/constants/constants.dart';
 import 'package:culinary_course/src/core/helper/failure.dart';
 import 'package:culinary_course/src/core/helper/typedefs.dart';
-import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fpdart/fpdart.dart';

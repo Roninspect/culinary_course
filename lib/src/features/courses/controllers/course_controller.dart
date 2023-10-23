@@ -2,31 +2,30 @@ import 'dart:convert';
 import 'package:culinary_course/src/core/utility/error_handling.dart';
 import 'package:culinary_course/src/core/utility/error_snackbar.dart';
 import 'package:culinary_course/src/features/courses/repository/course.repository.dart';
-import 'package:culinary_course/src/models/argsModel.dart';
 import 'package:culinary_course/src/models/category.dart';
 import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'course_controller.g.dart';
 
-
 @Riverpod(keepAlive: true)
- courseController(CourseControllerRef ref) {
+courseController(CourseControllerRef ref) {
   return CourseController(
       courseRepository: ref.watch(courseRepositoryProvider));
 }
 
 @Riverpod(keepAlive: true)
-Future<List<Category>> getAllCategories (GetAllCategoriesRef ref) {
-     return ref.watch(courseControllerProvider).getAllCategories();
+Future<List<Category>> getAllCategories(GetAllCategoriesRef ref) {
+  return ref.watch(courseControllerProvider).getAllCategories();
 }
 
 @Riverpod(keepAlive: true)
-Future<List<Course>> getCoursesByCategories(GetCoursesByCategoriesRef ref, {required String category, required BuildContext context}) {
- return ref.watch(courseControllerProvider).getCoursesByCategories(
-      category: category, context: context);
+Future<List<Course>> getCoursesByCategories(GetCoursesByCategoriesRef ref,
+    {required String category, required BuildContext context}) {
+  return ref
+      .watch(courseControllerProvider)
+      .getCoursesByCategories(category: category, context: context);
 }
-
 
 class CourseController {
   final CourseRepository _courseRepository;

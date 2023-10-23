@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:culinary_course/src/core/constants/colors.dart';
 import 'package:culinary_course/src/features/home/controller/home_controller.dart';
-import 'package:culinary_course/src/features/home/repository/home_repository.dart';
-import 'package:culinary_course/src/features/home/widgets/rating_icon.dart';
 import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

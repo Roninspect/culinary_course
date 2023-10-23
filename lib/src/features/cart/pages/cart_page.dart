@@ -30,6 +30,13 @@ class CartPage extends ConsumerWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Cart",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -41,7 +48,7 @@ class CartPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Carts (${cartList.length} courses)",
+                      "Total courses (${cartList.length})",
                       style: const TextStyle(fontSize: 30),
                     ),
                     const SizedBox(height: 10),
@@ -75,7 +82,12 @@ class CartPage extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            title: Text(cart.title),
+                            title: Text(cart.title,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600)),
+                            subtitle: Text(cart.instructor.instructorName,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500)),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -109,11 +121,11 @@ class CartPage extends ConsumerWidget {
               ),
             ),
       floatingActionButton: SizedBox(
-        width: 230,
+        width: 365,
         child: CustomButton(
             height: 50,
             width: 10,
-            text: "CheckOut \$${getTotalPrice()}",
+            text: "Checkout \$${getTotalPrice()}",
             onpressed: () {},
             backgroundColor: primaryColor),
       ),
