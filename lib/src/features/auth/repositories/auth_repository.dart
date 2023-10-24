@@ -38,6 +38,7 @@ class AuthRepository extends StateNotifier<bool> {
         number: number,
         cart: [],
         wishlist: [],
+        enrolled: [],
         token: "",
       );
 

@@ -6,9 +6,10 @@ enum PaymentState {
 }
 
 final paymentOptionNotifierProvider =
-    NotifierProvider<AuthScreenNotifier, PaymentState>(AuthScreenNotifier.new);
+    NotifierProvider.autoDispose<AuthScreenNotifier, PaymentState>(
+        AuthScreenNotifier.new);
 
-class AuthScreenNotifier extends Notifier<PaymentState> {
+class AuthScreenNotifier extends AutoDisposeNotifier<PaymentState> {
   @override
   build() {
     return PaymentState.creditCard;

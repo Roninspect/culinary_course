@@ -246,7 +246,7 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
                     width: 150,
                     text: "Enroll Now \$${course.price}",
                     onpressed: () {
-                      context.pushNamed(AppRoutes.payment.name, extra: course);
+                      context.pushNamed(AppRoutes.payment.name);
                     },
                     backgroundColor: primaryColor)
                 : CustomButton(

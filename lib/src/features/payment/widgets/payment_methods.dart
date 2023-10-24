@@ -29,14 +29,17 @@ class PaymentMethodOptions extends ConsumerWidget {
                   .changePaymentOption(value!);
             },
           ),
-          title: const Text("Credit/Debit card"),
+          title: const Text(
+            "Credit/Debit card",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          ),
         ),
         paymentOption == PaymentState.creditCard
             ? const Padding(
                 padding: EdgeInsets.only(left: 15.0),
                 child: Text(
                   "Pay securely by Credit/Debit card, Internet banking through SSLCommerz.",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 17),
                 ),
               )
             : const SizedBox.shrink(),
@@ -52,12 +55,18 @@ class PaymentMethodOptions extends ConsumerWidget {
                   .changePaymentOption(value!);
             },
           ),
-          title: const Text("Bkash"),
+          title: const Text(
+            "Bkash",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+          ),
         ),
         paymentOption == PaymentState.bkash
-            ? const Text(
-                "Pay securely by Mobile through Bkash.",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ? const Padding(
+                padding: EdgeInsets.only(left: 15.0),
+                child: Text(
+                  "Pay securely by Mobile through Bkash.",
+                  style: TextStyle(fontSize: 17),
+                ),
               )
             : const SizedBox.shrink(),
       ],

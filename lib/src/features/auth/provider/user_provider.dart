@@ -15,6 +15,7 @@ class UserData extends Notifier<User> {
         number: "",
         password: "",
         token: "",
+        enrolled: [],
         cart: [],
         wishlist: []);
   }
@@ -46,6 +47,10 @@ class UserData extends Notifier<User> {
     state = updatedUser;
   }
 
+  void emptycart() {
+    state.cart.clear();
+  }
+
   void addToWishlist({required Course course}) {
     final updatedUser = state.copyWith(wishlist: [...state.wishlist, course]);
 
@@ -62,6 +67,22 @@ class UserData extends Notifier<User> {
     ];
 
     final updatedUser = state.copyWith(wishlist: updatedWishlist);
+    state = updatedUser;
+  }
+
+  void emptyWishlist(String courseId) {
+    final updatedWishlist = [
+      for (final course in state.wishlist)
+        if (course.id != courseId) course,
+    ];
+
+    final updatedUser = state.copyWith(wishlist: updatedWishlist);
+    state = updatedUser;
+  }
+
+  void enrollingTheCourse({required Course course}) {
+    final updatedUser = state.copyWith(enrolled: [...state.enrolled, course]);
+
     state = updatedUser;
   }
 }

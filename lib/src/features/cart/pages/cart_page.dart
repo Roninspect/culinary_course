@@ -126,7 +126,9 @@ class CartPage extends ConsumerWidget {
             height: 50,
             width: 10,
             text: "Checkout \$${getTotalPrice()}",
-            onpressed: () {},
+            onpressed: () {
+              context.pushNamed(AppRoutes.payment.name);
+            },
             backgroundColor: primaryColor),
       ),
     );

@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final termsConditionNotifierProvider =
-    NotifierProvider<TermsConditionNotifier, bool>(TermsConditionNotifier.new);
+    NotifierProvider.autoDispose<TermsConditionNotifier, bool>(
+        TermsConditionNotifier.new);
 
-class TermsConditionNotifier extends Notifier<bool> {
+class TermsConditionNotifier extends AutoDisposeNotifier<bool> {
   @override
   build() {
     return false;

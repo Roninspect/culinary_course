@@ -15,6 +15,7 @@ class User {
   final String token;
   final List<Course> cart;
   final List<Course> wishlist;
+  final List<Course> enrolled;
   User({
     required this.id,
     required this.name,
@@ -25,6 +26,7 @@ class User {
     required this.token,
     required this.cart,
     required this.wishlist,
+    required this.enrolled,
   });
 
   User copyWith({
@@ -37,6 +39,7 @@ class User {
     String? token,
     List<Course>? cart,
     List<Course>? wishlist,
+    List<Course>? enrolled,
   }) {
     return User(
       id: id ?? this.id,
@@ -48,6 +51,7 @@ class User {
       token: token ?? this.token,
       cart: cart ?? this.cart,
       wishlist: wishlist ?? this.wishlist,
+      enrolled: enrolled ?? this.enrolled,
     );
   }
 
@@ -62,6 +66,7 @@ class User {
       'token': token,
       'cart': cart.map((x) => x.toMap()).toList(),
       'wishlist': wishlist.map((x) => x.toMap()).toList(),
+      'enrolled': enrolled.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -84,6 +89,11 @@ class User {
           (x) => Course.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      enrolled: List<Course>.from(
+        (map['enrolled'] as List<dynamic>).map<Course>(
+          (x) => Course.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -94,7 +104,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart, wishlist: $wishlist)';
+    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart, wishlist: $wishlist, enorolled: $enrolled)';
   }
 
   @override
@@ -109,7 +119,8 @@ class User {
         other.isPaid == isPaid &&
         other.token == token &&
         listEquals(other.cart, cart) &&
-        listEquals(other.wishlist, wishlist);
+        listEquals(other.wishlist, wishlist) &&
+        listEquals(other.enrolled, enrolled);
   }
 
   @override
@@ -122,6 +133,7 @@ class User {
         isPaid.hashCode ^
         token.hashCode ^
         cart.hashCode ^
-        wishlist.hashCode;
+        wishlist.hashCode ^
+        enrolled.hashCode;
   }
 }
