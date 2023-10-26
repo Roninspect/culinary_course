@@ -41,6 +41,7 @@ class FetauredCard extends ConsumerWidget {
                           child: AspectRatio(
                             aspectRatio: 16 / 10,
                             child: CachedNetworkImage(
+                              cacheKey: data.id,
                               imageUrl: data.thumbnail,
                               fit: BoxFit.fill,
                             ),

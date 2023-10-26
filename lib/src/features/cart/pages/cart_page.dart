@@ -76,6 +76,7 @@ class CartPage extends ConsumerWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: CachedNetworkImage(
+                                    cacheKey: cart.id,
                                     imageUrl: cart.thumbnail,
                                     fit: BoxFit.fill,
                                   ),

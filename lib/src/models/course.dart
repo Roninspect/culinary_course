@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:culinary_course/src/core/enums/watch_enum.dart';
 import 'package:culinary_course/src/models/instructor.dart';
 
 class Course {
@@ -208,11 +209,13 @@ class Content {
   final String title;
   final String link;
   final bool isFreePreview;
+  final String isWatched;
   final String id;
   Content({
     required this.title,
     required this.link,
     required this.isFreePreview,
+    required this.isWatched,
     required this.id,
   });
 
@@ -220,12 +223,14 @@ class Content {
     String? title,
     String? link,
     bool? isFreePreview,
+    String? isWatched,
     String? id,
   }) {
     return Content(
       title: title ?? this.title,
       link: link ?? this.link,
       isFreePreview: isFreePreview ?? this.isFreePreview,
+      isWatched: isWatched ?? this.isWatched,
       id: id ?? this.id,
     );
   }
@@ -235,6 +240,7 @@ class Content {
       'title': title,
       'link': link,
       'isFreePreview': isFreePreview,
+      'isWatched': isWatched,
     };
   }
 
@@ -243,6 +249,7 @@ class Content {
       title: map['title'] as String,
       link: map['link'] as String,
       isFreePreview: map['isFreePreview'] as bool,
+      isWatched: map['isWatched'] as String,
       id: map['_id'] as String,
     );
   }
@@ -254,7 +261,7 @@ class Content {
 
   @override
   String toString() {
-    return 'Content(title: $title, link: $link, isFreePreview: $isFreePreview, id: $id)';
+    return 'Content(title: $title, link: $link, isFreePreview: $isFreePreview, isWatched: $isWatched, id: $id)';
   }
 
   @override
@@ -264,6 +271,7 @@ class Content {
     return other.title == title &&
         other.link == link &&
         other.isFreePreview == isFreePreview &&
+        other.isWatched == isWatched &&
         other.id == id;
   }
 
@@ -272,6 +280,7 @@ class Content {
     return title.hashCode ^
         link.hashCode ^
         isFreePreview.hashCode ^
+        isWatched.hashCode ^
         id.hashCode;
   }
 }

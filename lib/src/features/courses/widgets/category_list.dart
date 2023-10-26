@@ -65,7 +65,6 @@ class CategoriesListView extends ConsumerWidget {
                     )
                     .when(
                       data: (courses) => ListView.builder(
-                        key: const PageStorageKey<String>('controllerA'),
                         scrollDirection: Axis.horizontal,
                         itemCount: courses.length,
                         itemBuilder: (context, index) {

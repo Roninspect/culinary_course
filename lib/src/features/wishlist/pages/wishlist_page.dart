@@ -62,6 +62,7 @@ class WishlistPage extends ConsumerWidget {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(8),
                                         child: CachedNetworkImage(
+                                          cacheKey: wishlist.id,
                                           imageUrl: wishlist.thumbnail,
                                           fit: BoxFit.fill,
                                         ),

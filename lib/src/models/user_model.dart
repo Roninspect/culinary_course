@@ -15,7 +15,7 @@ class User {
   final String token;
   final List<Course> cart;
   final List<Course> wishlist;
-  final List<Course> enrolled;
+  final List<Enrolled> enrolled;
   User({
     required this.id,
     required this.name,
@@ -39,7 +39,7 @@ class User {
     String? token,
     List<Course>? cart,
     List<Course>? wishlist,
-    List<Course>? enrolled,
+    List<Enrolled>? enrolled,
   }) {
     return User(
       id: id ?? this.id,
@@ -89,9 +89,9 @@ class User {
           (x) => Course.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      enrolled: List<Course>.from(
-        (map['enrolled'] as List<dynamic>).map<Course>(
-          (x) => Course.fromMap(x as Map<String, dynamic>),
+      enrolled: List<Enrolled>.from(
+        (map['enrolled'] as List<dynamic>).map<Enrolled>(
+          (x) => Enrolled.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
@@ -104,7 +104,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart, wishlist: $wishlist, enorolled: $enrolled)';
+    return 'User(id: $id, name: $name, email: $email, number: $number, password: $password, isPaid: $isPaid, token: $token, cart: $cart, wishlist: $wishlist, enrolled: $enrolled)';
   }
 
   @override
@@ -136,4 +136,55 @@ class User {
         wishlist.hashCode ^
         enrolled.hashCode;
   }
+}
+
+class Enrolled {
+  final Course course;
+  final String id;
+  Enrolled({
+    required this.course,
+    required this.id,
+  });
+
+  Enrolled copyWith({
+    Course? course,
+    String? id,
+  }) {
+    return Enrolled(
+      course: course ?? this.course,
+      id: id ?? this.id,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'course': course.toMap(),
+      'id': id,
+    };
+  }
+
+  factory Enrolled.fromMap(Map<String, dynamic> map) {
+    return Enrolled(
+      course: Course.fromMap(map['course'] as Map<String, dynamic>),
+      id: map['_id'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Enrolled.fromJson(String source) =>
+      Enrolled.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() => 'Enrolled(course: $course, id: $id)';
+
+  @override
+  bool operator ==(covariant Enrolled other) {
+    if (identical(this, other)) return true;
+
+    return other.course == course && other.id == id;
+  }
+
+  @override
+  int get hashCode => course.hashCode ^ id.hashCode;
 }

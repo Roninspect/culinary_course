@@ -10,6 +10,7 @@ import 'package:culinary_course/src/features/payment/widgets/textfield_title.dar
 import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentConfirmPage extends ConsumerWidget {
   const PaymentConfirmPage({super.key});
@@ -170,6 +171,7 @@ class PaymentConfirmPage extends ConsumerWidget {
                   text: "Checkout using SSLCommerz ",
                   onpressed: () async {
                     await enrollCourse(cart: user.cart);
+                    context.pop();
                   },
                   backgroundColor: const Color(0xff295CAB))
               : CustomButton(

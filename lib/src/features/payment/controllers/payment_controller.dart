@@ -1,6 +1,7 @@
 import 'package:culinary_course/src/core/utility/error_handling.dart';
 import 'package:culinary_course/src/core/utility/error_snackbar.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
+import 'package:culinary_course/src/features/auth/repositories/auth_repository.dart';
 import 'package:culinary_course/src/features/payment/repository/payment_repository.dart';
 import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,7 @@ class PaymentController extends StateNotifier<bool> {
         response: r,
         context: context,
         onSuccess: () {
-          ref
-              .read(userDataProvider.notifier)
-              .enrollingTheCourse(course: course);
+          ref.read(authRepositoryProvider.notifier).getUserData();
           ref.read(userDataProvider.notifier).emptycart();
           ref.read(userDataProvider.notifier).emptyWishlist(courseId);
         },

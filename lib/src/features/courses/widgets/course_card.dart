@@ -33,6 +33,7 @@ class CourseCard extends ConsumerWidget {
                 height: 200,
                 width: 300,
                 child: CachedNetworkImage(
+                  cacheKey: course.id,
                   imageUrl: course.thumbnail,
                   fit: BoxFit.fill,
                 ),

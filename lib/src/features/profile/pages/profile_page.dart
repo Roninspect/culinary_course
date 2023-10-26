@@ -1,5 +1,6 @@
 import 'package:culinary_course/src/core/constants/colors.dart';
 import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
+import 'package:culinary_course/src/features/profile/pages/my-course_page.dart';
 import 'package:culinary_course/src/features/profile/widgets/name_avatar.dart';
 import 'package:culinary_course/src/features/wishlist/pages/wishlist_page.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class ProfilePage extends ConsumerWidget {
 
     return DefaultTabController(
       length: 3,
-      initialIndex: 0,
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -61,9 +62,7 @@ class ProfilePage extends ConsumerWidget {
                 child: TabBarView(
                     physics: NeverScrollableScrollPhysics(),
                     children: [
-                  Center(
-                    child: Text("My courses"),
-                  ),
+                  MyCourseProfilePage(),
                   WishlistPage(),
                   Center(
                     child: Text("Subscription"),

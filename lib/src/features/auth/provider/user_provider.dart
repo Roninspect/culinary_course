@@ -80,8 +80,8 @@ class UserData extends Notifier<User> {
     state = updatedUser;
   }
 
-  void enrollingTheCourse({required Course course}) {
-    final updatedUser = state.copyWith(enrolled: [...state.enrolled, course]);
+  void enrollingTheCourse({required Enrolled enrolled}) {
+    final updatedUser = state.copyWith(enrolled: [...state.enrolled, enrolled]);
 
     state = updatedUser;
   }

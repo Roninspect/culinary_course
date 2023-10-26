@@ -38,6 +38,8 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
     final cart = ref.watch(userDataProvider.select((value) => value.cart));
     final wishlist =
         ref.watch(userDataProvider.select((value) => value.wishlist));
+    final isEnrolled =
+        ref.watch(userDataProvider.select((value) => value.enrolled));
 
     Text getTotalLessons() {
       if (course.totalContentCount < 10) {
@@ -238,74 +240,83 @@ class _CourseDetailsPageState extends ConsumerState<CourseDetailsPage> {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(left: 30.0),
-        child: Row(
-          children: [
-            cart.any((element) => element.id == course.id)
-                ? CustomButton(
-                    height: 50,
-                    width: 150,
-                    text: "Enroll Now \$${course.price}",
-                    onpressed: () {
-                      context.pushNamed(AppRoutes.payment.name);
-                    },
-                    backgroundColor: primaryColor)
-                : CustomButton(
-                    height: 50,
-                    width: 150,
-                    text: "Enroll Now \$${course.price}",
-                    onpressed: () async {
-                      await ref.read(cartControllerProvider.notifier).addToCart(
-                          courseId: course.id,
-                          context: context,
-                          course: course,
-                          ref: ref);
+        child: isEnrolled.any((element) => element.course.id == course.id)
+            ? CustomButton(
+                height: 50,
+                width: double.infinity,
+                text: "Go to course",
+                onpressed: () {},
+                backgroundColor: Colors.black)
+            : Row(
+                children: [
+                  cart.any((element) => element.id == course.id)
+                      ? CustomButton(
+                          height: 50,
+                          width: 150,
+                          text: "Enroll Now \$${course.price}",
+                          onpressed: () {
+                            context.pushNamed(AppRoutes.payment.name);
+                          },
+                          backgroundColor: primaryColor)
+                      : CustomButton(
+                          height: 50,
+                          width: 150,
+                          text: "Enroll Now \$${course.price}",
+                          onpressed: () async {
+                            await ref
+                                .read(cartControllerProvider.notifier)
+                                .addToCart(
+                                    courseId: course.id,
+                                    context: context,
+                                    course: course,
+                                    ref: ref);
 
-                      if (mounted) {
-                        context.pushNamed(AppRoutes.payment.name);
-                      }
-                    },
-                    backgroundColor: primaryColor),
-            const SizedBox(width: 10),
-            Row(
-              children: [
-                cart.any((element) => element.id == course.id)
-                    ? CustomButton(
-                        height: 50,
-                        width: 150,
-                        text: "Added To Cart",
-                        onpressed: () {
-                          errorSnackBar(
-                              context: context,
-                              text: "Already Added, Check Cart Page");
-                        },
-                        backgroundColor: primaryColor)
-                    : isLoading
-                        ? CustomButton(
-                            height: 50,
-                            width: 150,
-                            icon: Icons.shopping_cart_sharp,
-                            text: "Adding...",
-                            onpressed: () {},
-                            backgroundColor: primaryColor)
-                        : CustomButton(
-                            height: 50,
-                            width: 150,
-                            icon: Icons.shopping_cart_sharp,
-                            text: "Add to Cart",
-                            onpressed: () {
-                              ref
-                                  .read(cartControllerProvider.notifier)
-                                  .addToCart(
-                                      courseId: course.id,
-                                      context: context,
-                                      course: course,
-                                      ref: ref);
-                            },
-                            backgroundColor: primaryColor),
-              ],
-            ),
-          ],
-        ),
+                            if (mounted) {
+                              context.pushNamed(AppRoutes.payment.name);
+                            }
+                          },
+                          backgroundColor: primaryColor),
+                  const SizedBox(width: 10),
+                  Row(
+                    children: [
+                      cart.any((element) => element.id == course.id)
+                          ? CustomButton(
+                              height: 50,
+                              width: 150,
+                              text: "Added To Cart",
+                              onpressed: () {
+                                errorSnackBar(
+                                    context: context,
+                                    text: "Already Added, Check Cart Page");
+                              },
+                              backgroundColor: primaryColor)
+                          : isLoading
+                              ? CustomButton(
+                                  height: 50,
+                                  width: 150,
+                                  icon: Icons.shopping_cart_sharp,
+                                  text: "Adding...",
+                                  onpressed: () {},
+                                  backgroundColor: primaryColor)
+                              : CustomButton(
+                                  height: 50,
+                                  width: 150,
+                                  icon: Icons.shopping_cart_sharp,
+                                  text: "Add to Cart",
+                                  onpressed: () {
+                                    ref
+                                        .read(cartControllerProvider.notifier)
+                                        .addToCart(
+                                            courseId: course.id,
+                                            context: context,
+                                            course: course,
+                                            ref: ref);
+                                  },
+                                  backgroundColor: primaryColor),
+                    ],
+                  ),
+                ],
+              ),
       ),
     );
   }
