@@ -1,3 +1,4 @@
+import 'package:culinary_course/src/features/enrolled-course/providers/content_index_provider.dart';
 import 'package:culinary_course/src/models/course.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,5 +13,28 @@ class ContentNotifier extends Notifier<List<Content>> {
 
   void selectContent({required List<Content> selectedContent}) {
     state = selectedContent;
+  }
+
+  void playNext() {
+    final currentIndex = ref.watch(contentIndexNotifierProvider);
+
+    ref.watch(singleContentNotifierProvider.notifier).selectContent(
+          currentContent: state[currentIndex],
+        );
+  }
+}
+
+final singleContentNotifierProvider =
+    NotifierProvider<SingleContentNotifier, Content?>(
+        SingleContentNotifier.new);
+
+class SingleContentNotifier extends Notifier<Content?> {
+  @override
+  build() {
+    return null;
+  }
+
+  void selectContent({required Content currentContent}) {
+    state = currentContent;
   }
 }
