@@ -14,14 +14,6 @@ class ContentNotifier extends Notifier<List<Content>> {
   void selectContent({required List<Content> selectedContent}) {
     state = selectedContent;
   }
-
-  void playNext() {
-    final currentIndex = ref.watch(contentIndexNotifierProvider);
-
-    ref.watch(singleContentNotifierProvider.notifier).selectContent(
-          currentContent: state[currentIndex],
-        );
-  }
 }
 
 final singleContentNotifierProvider =

@@ -1,5 +1,7 @@
+import 'package:culinary_course/src/features/auth/pages/loading_page.dart';
 import 'package:culinary_course/src/features/auth/pages/login_page.dart';
 import 'package:culinary_course/src/features/auth/pages/register_page.dart';
+import 'package:culinary_course/src/features/auth/repositories/auth_repository.dart';
 import 'package:culinary_course/src/features/courses/pages/course_details_page.dart';
 import 'package:culinary_course/src/features/enrolled-course/pages/course_playlist_page.dart';
 import 'package:culinary_course/src/features/enrolled-course/pages/watch_lesson_page.dart';
@@ -25,13 +27,20 @@ enum AppRoutes {
   payment,
   enrolledCourse,
   lessons,
+  loading
 }
 
 final routesProvider = Provider<GoRouter>((ref) {
   final user = ref.watch(userDataProvider.select((value) => value.token));
+
   return GoRouter(
     initialLocation: '/',
     routes: [
+      GoRoute(
+        path: '/loading',
+        name: AppRoutes.loading.name,
+        builder: (context, state) => const LoadingPage(),
+      ),
       GoRoute(
           path: '/',
           name: AppRoutes.home.name,
@@ -109,7 +118,8 @@ final routesProvider = Provider<GoRouter>((ref) {
             )
           ]),
     ],
-    redirect: (context, state) {
+    redirect: (context, state) async {
+      await ref.read(authRepositoryProvider.notifier).validateAndgetUserData();
       final isAuth = user.isNotEmpty;
 
       final bool isHome = state.fullPath == '/';

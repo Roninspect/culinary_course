@@ -1,17 +1,12 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:culinary_course/src/core/constants/colors.dart';
 import 'package:culinary_course/src/core/enums/watch_enum.dart';
 import 'package:culinary_course/src/features/enrolled-course/providers/content_index_provider.dart';
 import 'package:culinary_course/src/features/enrolled-course/providers/content_provider.dart';
 import 'package:culinary_course/src/features/enrolled-course/widgets/lesson_video_player.dart';
-import 'package:culinary_course/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:culinary_course/src/features/enrolled-course/providers/curriculum_provider.dart';
 import 'package:culinary_course/src/models/course.dart';
-import 'package:go_router/go_router.dart';
 
 class CoursePlaylistPage extends ConsumerWidget {
   final Course course;
@@ -38,7 +33,7 @@ class CoursePlaylistPage extends ConsumerWidget {
       }
     }
 
-    final selectedCurriculum = ref.read(curriculumNotifierProvider);
+    final selectedCurriculum = ref.watch(curriculumNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(course.title),
@@ -49,28 +44,7 @@ class CoursePlaylistPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-              //   child: Stack(
-              //     alignment: Alignment.center,
-              //     children: [
-              //       CachedNetworkImage(
-              //         cacheKey: course.id,
-              //         imageUrl: course.thumbnail,
-              //         color: Colors.black45,
-              //         colorBlendMode: BlendMode.darken,
-              //       ),
-              //       IconButton(
-              //           onPressed: () {},
-              //           icon: const Icon(
-              //             Icons.play_circle_outline_outlined,
-              //             size: 70,
-              //             color: Colors.white,
-              //           )),
-              //     ],
-              //   ),
-              // ),
-
+              const PlaylistVideoPlayer(),
               const Text(
                 "Course Content",
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
@@ -102,11 +76,6 @@ class CoursePlaylistPage extends ConsumerWidget {
 
                               return ListTile(
                                 onTap: () {
-                                  ref
-                                      .read(contentNotifierProvider.notifier)
-                                      .selectContent(
-                                          selectedContent:
-                                              singleCurriculum.content);
                                   ref
                                       .read(
                                           contentIndexNotifierProvider.notifier)

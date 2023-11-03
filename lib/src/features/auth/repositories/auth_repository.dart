@@ -1,26 +1,36 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'package:culinary_course/src/core/constants/constants.dart';
-import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:culinary_course/src/core/constants/constants.dart';
+import 'package:culinary_course/src/features/auth/provider/user_provider.dart';
+
 import '../../../core/utility/error_handling.dart';
 import '../../../core/utility/error_snackbar.dart';
 import '../../../models/user_model.dart';
-import 'package:http/http.dart' as http;
 
 final authRepositoryProvider =
     StateNotifierProvider<AuthRepository, bool>((ref) {
-  return AuthRepository(ref: ref, dio: Dio());
+  return AuthRepository(
+      ref: ref, dio: Dio(), secureStorage: const FlutterSecureStorage());
 });
 
 class AuthRepository extends StateNotifier<bool> {
   final Ref ref;
   final Dio dio;
+  final FlutterSecureStorage secureStorage;
 
-  AuthRepository({required this.dio, required this.ref}) : super(false);
+  AuthRepository({
+    required this.ref,
+    required this.dio,
+    required this.secureStorage,
+  }) : super(false);
   Future<void> signUpUser({
     required BuildContext context,
     required String name,
@@ -92,7 +102,6 @@ class AuthRepository extends StateNotifier<bool> {
 
           // await prefs.setString("x-auth-token", userModel.token);
 
-          const FlutterSecureStorage secureStorage = FlutterSecureStorage();
           await secureStorage.write(
               key: "x-auth-token", value: userModel.token);
 
@@ -106,9 +115,8 @@ class AuthRepository extends StateNotifier<bool> {
 
   //** validate user token and persist user auth state */
 
-  void validateAndgetUserData() async {
+  Future<void> validateAndgetUserData() async {
     try {
-      const FlutterSecureStorage secureStorage = FlutterSecureStorage();
       final String? token = await secureStorage.read(key: "x-auth-token");
 
       if (token == null) {
@@ -151,7 +159,6 @@ class AuthRepository extends StateNotifier<bool> {
 
   void getUserData() async {
     try {
-      const FlutterSecureStorage secureStorage = FlutterSecureStorage();
       final String? token = await secureStorage.read(key: "x-auth-token");
       final userUri = Uri.parse("$baseUrl/api/v1/user/getUserData");
       http.Response userResponse = await http.get(
