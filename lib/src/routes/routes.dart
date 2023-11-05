@@ -1,7 +1,6 @@
 import 'package:culinary_course/src/features/auth/pages/loading_page.dart';
 import 'package:culinary_course/src/features/auth/pages/login_page.dart';
 import 'package:culinary_course/src/features/auth/pages/register_page.dart';
-import 'package:culinary_course/src/features/auth/repositories/auth_repository.dart';
 import 'package:culinary_course/src/features/courses/pages/course_details_page.dart';
 import 'package:culinary_course/src/features/enrolled-course/pages/course_playlist_page.dart';
 import 'package:culinary_course/src/features/enrolled-course/pages/watch_lesson_page.dart';
@@ -118,8 +117,7 @@ final routesProvider = Provider<GoRouter>((ref) {
             )
           ]),
     ],
-    redirect: (context, state) async {
-      await ref.read(authRepositoryProvider.notifier).validateAndgetUserData();
+    redirect: (context, state) {
       final isAuth = user.isNotEmpty;
 
       final bool isHome = state.fullPath == '/';

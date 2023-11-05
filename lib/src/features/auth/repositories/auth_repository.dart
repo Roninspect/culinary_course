@@ -117,6 +117,7 @@ class AuthRepository extends StateNotifier<bool> {
 
   Future<void> validateAndgetUserData() async {
     try {
+      print("called");
       final String? token = await secureStorage.read(key: "x-auth-token");
 
       if (token == null) {

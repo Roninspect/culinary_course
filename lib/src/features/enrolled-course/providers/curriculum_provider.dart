@@ -21,7 +21,6 @@ class CurriculumNotifier extends Notifier<List<Curriculum>> {
     required int currentCurriculumIndex,
     required int currentContentIndex,
   }) {
-    print('Before update: $state');
     state = List<Curriculum>.from(state.map((curriculum) {
       if (state.indexOf(curriculum) == currentCurriculumIndex) {
         return curriculum.copyWith(
@@ -37,6 +36,5 @@ class CurriculumNotifier extends Notifier<List<Curriculum>> {
       }
       return curriculum;
     }));
-    print('After update: $state');
   }
 }

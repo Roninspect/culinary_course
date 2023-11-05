@@ -39,41 +39,13 @@ class _PlaylistVideoPlayerState extends ConsumerState<PlaylistVideoPlayer> {
     if (currentCurriculumIndex < curriculums.length) {
       final curriculum = curriculums[currentCurriculumIndex];
       playContent(curriculum.content[currentContentIndex]);
-
-      _videoPlayerController?.addListener(() {
-        if (_videoPlayerController!.value.isCompleted) {
-          // Video finished, trigger your logic here
-          ref.read(curriculumNotifierProvider.notifier).markAsDone(
-                currentCurriculumIndex: currentCurriculumIndex,
-                currentContentIndex: currentContentIndex,
-              );
-
-          // Move to the next content or curriculum
-          setState(() {
-            currentContentIndex++;
-
-            if (currentContentIndex < curriculum.content.length) {
-              playContent(curriculum.content[currentContentIndex]);
-            } else {
-              currentCurriculumIndex++;
-              currentContentIndex = 0;
-
-              if (currentCurriculumIndex < curriculums.length) {
-                // Ensure to stop the current video before starting the next one
-                _videoPlayerController?.pause();
-                playCurriculum();
-              } else {
-                currentCurriculumIndex++;
-                currentContentIndex = 0;
-              }
-            }
-          });
-        }
-      });
     }
   }
 
-  void playContent(Content content) {
+  void playContent(Content content) async {
+    print("content: ${content.title}");
+    print("Curretnindex: $currentContentIndex");
+
     _videoPlayerController?.dispose();
     _chewieController?.dispose();
 
@@ -87,12 +59,56 @@ class _PlaylistVideoPlayerState extends ConsumerState<PlaylistVideoPlayer> {
       // You can customize other Chewie options here
     );
 
-    _videoPlayerController!.initialize().then((_) {
+    await _videoPlayerController!.initialize();
+
+    _videoPlayerController!.addListener(_onVideoListener);
+
+    setState(() {
+      // Start playing the content
+      _videoPlayerController!.play();
+    });
+  }
+
+  void _onVideoListener() {
+    if (_videoPlayerController!.value.position.inSeconds ==
+        _videoPlayerController!.value.duration.inSeconds) {
+      // Video finished, trigger your logic _videoPlayerController
+      print("finished");
+      ref.read(curriculumNotifierProvider.notifier).markAsDone(
+            currentCurriculumIndex: currentCurriculumIndex,
+            currentContentIndex: currentContentIndex,
+          );
+
+      // Move to the next content or curriculum
+      setState(() {
+        currentContentIndex++;
+
+        if (currentContentIndex <
+            curriculums[currentCurriculumIndex].content.length) {
+          playContent(
+              curriculums[currentCurriculumIndex].content[currentContentIndex]);
+        } else {
+          currentCurriculumIndex++;
+          currentContentIndex = 0;
+
+          if (currentCurriculumIndex < curriculums.length) {
+            // Ensure to stop the current video before starting the next one
+            _videoPlayerController?.pause();
+            playCurriculum();
+          } else {
+            // Ensure all content of the last curriculum is played before finishing
+
+            // If the currentContentIndex is 0, all content is played
+            _videoPlayerController?.dispose();
+            _chewieController?.dispose();
+          }
+        }
+      });
       setState(() {
         // Start playing the content
         _videoPlayerController!.play();
       });
-    });
+    }
   }
 
   @override
