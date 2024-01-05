@@ -1,4 +1,3 @@
-import 'package:culinary_course/src/features/auth/pages/loading_page.dart';
 import 'package:culinary_course/src/features/auth/pages/login_page.dart';
 import 'package:culinary_course/src/features/auth/pages/register_page.dart';
 import 'package:culinary_course/src/features/courses/pages/course_details_page.dart';
@@ -35,11 +34,6 @@ final routesProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(
-        path: '/loading',
-        name: AppRoutes.loading.name,
-        builder: (context, state) => const LoadingPage(),
-      ),
       GoRoute(
           path: '/',
           name: AppRoutes.home.name,

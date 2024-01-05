@@ -23,6 +23,7 @@ class FetauredCard extends ConsumerWidget {
                   "Featured",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
                 ),
+                const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () => context.pushNamed(
                     AppRoutes.course.name,

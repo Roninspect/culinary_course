@@ -17,6 +17,7 @@ class CoursePlaylistPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     //* function returns which checkbox IconButton to show
     IconButton watchingState({required String state}) {
       if (state == WatchState.NOTWATCHED.name) {

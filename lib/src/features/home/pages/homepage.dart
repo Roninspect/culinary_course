@@ -27,11 +27,11 @@ class _HomePageState extends ConsumerState<HomePage>
             Icon(
               MaterialCommunityIcons.chef_hat,
               color: primaryColor,
-              size: 30,
+              size: 28,
             ),
             Text(
-              "  Culinary Course ",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              "  Culinar ",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ],
         ),
@@ -41,7 +41,6 @@ class _HomePageState extends ConsumerState<HomePage>
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(height: 10),
             FetauredCard(),
             Text(
               "Courses By Category",

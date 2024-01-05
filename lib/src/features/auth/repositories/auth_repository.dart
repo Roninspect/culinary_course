@@ -108,7 +108,8 @@ class AuthRepository extends StateNotifier<bool> {
           ref.read(userDataProvider.notifier).setUser(userModel: userModel);
         },
       );
-    } catch (e) {
+    } catch (e, stk) {
+      print(stk);
       errorSnackBar(context: context, text: e.toString());
     }
   }

@@ -7,10 +7,10 @@ final tokenNotifierProvider =
 class TokenNotifier extends Notifier<String?> {
   @override
   build() {
-    return "";
+    return null;
   }
 
-  void setToken() async {
+  Future<void> getToken() async {
     const FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final String? token = await secureStorage.read(key: "x-auth-token");
 
